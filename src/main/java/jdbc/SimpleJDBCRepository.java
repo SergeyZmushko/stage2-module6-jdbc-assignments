@@ -19,8 +19,8 @@ public class SimpleJDBCRepository {
     private PreparedStatement ps = null;
     private Statement st = null;
 
-//    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES (?, ?, ?)";
-    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES ('Ivan', 'Fedosov', 25)";
+    private static final String createUserSQL = "INSERT INTO myusers (id, firstname, lastname, age) VALUES (?, ?, ?, ?)";
+//    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES ('Ivan', 'Fedosov', 25)";
     private static final String updateUserSQL = "UPDATE myusers SET age = 25 WHERE id = 3";
     private static final String deleteUser = "DELETE FROM myusers WHERE id = ?";
     private static final String findUserByIdSQL = "SELECT * FROM myusers WHERE id = ?";
@@ -28,25 +28,25 @@ public class SimpleJDBCRepository {
     private static final String findAllUserSQL = "SELECT * FROM myusers";
 
 
-    public Long createUser() throws SQLException {
+    public Long createUser(User user) throws SQLException {
         connection = CustomDataSource.getInstance().getConnection();
-//        ps = connection.prepareStatement(createUserSQL);
-//        ps.setString(1, firstName);
-//        ps.setString(2, lastName);
-//        ps.setInt(3, age);
-//        ps.executeUpdate();
-        st = connection.createStatement();
-        st.executeUpdate(createUserSQL);
+        ps = connection.prepareStatement(createUserSQL);
+        ps.setLong(1, user.getId());
+        ps.setString(2, user.getFirstName());
+        ps.setString(3, user.getLastName());
+        ps.setInt(4, user.getAge());
+        ps.executeUpdate();
+
 
 //        st.executeUpdate("SELECT id FROM myusers WHERE firstname = 'Ivan' AND lastname = 'Fedosov'");
 //        ps = connection.prepareStatement("SELECT id FROM myusers WHERE firstname = ? AND lastname = ?");
-//        ps.setString(1, firstName);
-//        ps.setString(2, lastName);
-        ResultSet rs = st.executeQuery("SELECT id FROM myusers WHERE firstname = 'Ivan' AND lastname = 'Fedosov'");
-        while (rs.next()){
-            return rs.getLong("id");
-        }
-        return -1L;
+//        ps.setString(1, user.getFirstName());
+//        ps.setString(2, user.getLastName());
+//        ResultSet rs = ps.executeQuery();
+//        while (rs.next()){
+//            return rs.getLong("id");
+//        }
+        return user.getId();
     }
 
     public User findUserById(Long userId) throws SQLException {
