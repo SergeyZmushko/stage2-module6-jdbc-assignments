@@ -19,7 +19,8 @@ public class SimpleJDBCRepository {
     private PreparedStatement ps = null;
     private Statement st = null;
 
-    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES (?, ?, ?)";
+//    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES (?, ?, ?)";
+    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES ('Ivan', 'Fedosov', 25)";
     private static final String updateUserSQL = "UPDATE myusers SET age = 25 WHERE id = 3";
     private static final String deleteUser = "DELETE FROM myusers WHERE id = ?";
     private static final String findUserByIdSQL = "SELECT * FROM myusers WHERE id = ?";
@@ -27,19 +28,21 @@ public class SimpleJDBCRepository {
     private static final String findAllUserSQL = "SELECT * FROM myusers";
 
 
-    public Long createUser(String firstName, String lastName, int age) throws SQLException {
+    public Long createUser() throws SQLException {
         connection = CustomDataSource.getInstance().getConnection();
-        ps = connection.prepareStatement(createUserSQL);
-        ps.setString(1, firstName);
-        ps.setString(2, lastName);
-        ps.setInt(3, age);
-        ps.executeUpdate();
+//        ps = connection.prepareStatement(createUserSQL);
+//        ps.setString(1, firstName);
+//        ps.setString(2, lastName);
+//        ps.setInt(3, age);
+//        ps.executeUpdate();
+        st = connection.createStatement();
+        st.executeUpdate(createUserSQL);
 
-
-        ps = connection.prepareStatement("SELECT id FROM myusers WHERE firstname = ? AND lastname = ?");
-        ps.setString(1, firstName);
-        ps.setString(2, lastName);
-        ResultSet rs = ps.executeQuery();
+//        st.executeUpdate("SELECT id FROM myusers WHERE firstname = 'Ivan' AND lastname = 'Fedosov'");
+//        ps = connection.prepareStatement("SELECT id FROM myusers WHERE firstname = ? AND lastname = ?");
+//        ps.setString(1, firstName);
+//        ps.setString(2, lastName);
+        ResultSet rs = st.executeQuery("SELECT id FROM myusers WHERE firstname = 'Ivan' AND lastname = 'Fedosov'");
         while (rs.next()){
             return rs.getLong("id");
         }
