@@ -21,7 +21,7 @@ public class SimpleJDBCRepository {
 
     private static final String createUserSQL = "INSERT INTO myusers (id, firstname, lastname, age) VALUES (?, ?, ?, ?)";
 //    private static final String createUserSQL = "INSERT INTO myusers (firstname, lastname, age) VALUES ('Ivan', 'Fedosov', 25)";
-    private static final String updateUserSQL = "UPDATE myusers SET age = 25 WHERE id = 3";
+    private static final String updateUserSQL = "UPDATE myusers SET age = 20 WHERE id = ?";
     private static final String deleteUser = "DELETE FROM myusers WHERE id = ?";
     private static final String findUserByIdSQL = "SELECT * FROM myusers WHERE id = ?";
     private static final String findUserByNameSQL = "SELECT * FROM myusers WHERE firstname = ?";
@@ -95,19 +95,24 @@ public class SimpleJDBCRepository {
         return users;
     }
 
-    public User updateUser() throws SQLException {
+    public User updateUser(User user) throws SQLException {
         connection = CustomDataSource.getInstance().getConnection();
-        st  = connection.createStatement();
-        st.executeUpdate(updateUserSQL);
-        ResultSet rs = st.executeQuery("SELECT id, firstname, lastname, age FROM myusers");
-        User user = new User();
-        while (rs.next()){
-            user.setId(rs.getLong("id"));
-            user.setFirstName(rs.getString("firstname"));
-            user.setLastName(rs.getString("lastname"));
-            user.setAge(rs.getInt("age"));
-        }
-        return user;
+        ps  = connection.prepareStatement(updateUserSQL);
+        ps.setLong(1, user.getId());
+        ps.executeUpdate();
+
+        return findUserById(user.getId());
+//        ps = connection.prepareStatement(findUserByIdSQL)
+//
+//        ResultSet rs = ps.executeQuery();
+//        User newUser = new User();
+//        while (rs.next()){
+//            user.setId(rs.getLong("id"));
+//            user.setFirstName(rs.getString("firstname"));
+//            user.setLastName(rs.getString("lastname"));
+//            user.setAge(rs.getInt("age"));
+//        }
+//        return newUser;
     }
 
     public void deleteUser(Long userId) throws SQLException {
