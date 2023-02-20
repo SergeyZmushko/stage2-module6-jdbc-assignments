@@ -57,41 +57,41 @@ public class CustomDataSource implements DataSource {
 
     @Override
     public Connection getConnection(String username, String password) throws SQLException {
-        return this.getConnection();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public PrintWriter getLogWriter() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void setLogWriter(PrintWriter out) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void setLoginTimeout(int seconds) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int getLoginTimeout() throws SQLException {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }
