@@ -54,7 +54,12 @@ public class CustomDataSource implements DataSource {
     @Override
     public Connection getConnection() throws SQLException {
         CustomConnector customConnector = new CustomConnector();
-        return customConnector.getConnection(instance.url, instance.name, instance.password);
+        try {
+            Class.forName(driver);
+            return customConnector.getConnection(instance.url, instance.name, instance.password);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
