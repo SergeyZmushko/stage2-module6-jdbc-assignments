@@ -25,6 +25,8 @@ public class CustomDataSource implements DataSource {
     private final String name;
     private final String password;
 
+    private static final Logger logger = Logger.getLogger(CustomDataSource.class.getName());
+
     private CustomDataSource(String driver, String url, String password, String name) {
         this.driver = driver;
         this.url = url;
@@ -38,7 +40,7 @@ public class CustomDataSource implements DataSource {
             try (InputStream in = Files.newInputStream(Paths.get("src/main/resources/app.properties"))) {
                 props.load(in);
             } catch (IOException e) {
-                System.err.println("get properties exception");
+                logger.info("get properties exception");
             }
             String driver = props.getProperty("postgres.driver");
             String url = props.getProperty("postgres.url");
