@@ -1,10 +1,10 @@
 package constants;
 
 public class Constants {
-    public final static String FIRST_NAME = "firstname";
-    public final static String LAST_NAME = "lastname";
-    public final static String ID = "id";
-    public final static String AGE = "age";
+    public static final String FIRST_NAME = "firstname";
+    public static final String LAST_NAME = "lastname";
+    public static final String ID = "id";
+    public static final String AGE = "age";
 
     private Constants(){
         throw new IllegalStateException("Utility class");
